@@ -1,0 +1,41 @@
+<!-- translator/templates/home.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Speech-to-Sign Language Translator</title>
+</head>
+<body>
+    <h1>Speech-to-Sign Language Translator</h1>
+    <form id="translate-form" method="post" action="{% url 'translate' %}">
+        {% csrf_token %}
+        <label for="language">Select Language:</label>
+        <select name="language" id="language">
+            <option value="English">English</option>
+            <option value="Spanish">Spanish</option>
+        </select>
+        <button type="submit">Translate</button>
+    </form>
+    <div id="output"></div>
+    <script>
+        document.getElementById('translate-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            let formData = new FormData(this);
+            fetch(this.action, {
+                method: 'POST',
+                body: formData
+            }).then(response => response.json()).then(data => {
+                let output = document.getElementById('output');
+                if (data.success) {
+                    output.innerHTML = `<p>Recognized Text: ${data.recognized_text}</p>`;
+                    data.videos.forEach(video => {
+                        output.innerHTML += `<video src="${video}" controls></video>`;
+                    });
+                } else {
+                    output.innerHTML = `<p>${data.message}</p>`;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
