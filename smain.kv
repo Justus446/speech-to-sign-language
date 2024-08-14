@@ -1,0 +1,99 @@
+# smain.kv
+#:kivy 2.1.0
+
+<MainWindow>:
+    name: 'main'
+    BoxLayout:
+        orientation: 'vertical'
+        padding: [10, 10, 10, 10]
+        
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: 0.1
+            
+            Label:
+                text: 'Select Language:'
+                size_hint_x: 0.4
+
+            Spinner:
+                id: lang_spinner
+                text: 'English'
+                values: ['English', 'Swahili', 'Spanish', 'French', 'Arabic']
+                size_hint_x: 0.6
+
+        Image:
+            source: 'hello_sl.jpeg'
+            size_hint_y: 0.5
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: 0.1
+            padding: [10, 10, 10, 10]
+
+            Button:
+                text: 'Speak'
+                size_hint_x: 0.33
+                on_press: root.speak()
+
+            Button:
+                text: 'Translate'
+                size_hint_x: 0.33
+                on_press: root.translate()
+
+            Button:
+                text: 'Quit'
+                size_hint_x: 0.33
+                on_press: root.quit()
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y: 0.2
+            padding: [10, 10, 10, 10]
+
+            Video:
+                id: video_display
+                source: ''
+                state: 'stop'
+                size_hint_y: 0.8
+
+            Label:
+                id: output_label
+                text: ''
+                font_size: '20sp'
+                size_hint_y: 0.2
+
+<Window1>:
+    name: 'window1'
+    BoxLayout:
+        orientation: 'vertical'
+        
+        Label:
+            text: 'Speech-to-Sign Language Translator'
+            font_size: '24sp'
+            size_hint_y: 0.1
+
+        Button:
+            text: 'Back to Main'
+            size_hint_y: 0.1
+            on_press: app.root.current = 'main'
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: 0.8
+            padding: [10, 10, 10, 10]
+
+            Video:
+                id: video_display
+                source: ''
+                state: 'stop'
+                size_hint_x: 0.7
+
+            Label:
+                id: output_label
+                text: ''
+                font_size: '20sp'
+                size_hint_x: 0.3
+
+<WindowManager>:
+    MainWindow:
+    Window1:
